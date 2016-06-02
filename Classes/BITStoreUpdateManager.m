@@ -433,63 +433,65 @@
 #pragma mark - Alert
 
 - (void)showUpdateAlert {
-  if (!_updateAlertShowing) {
-    NSString *versionString = [NSString stringWithFormat:@"%@ %@", BITHockeyLocalizedString(@"UpdateVersion"), _newStoreVersion];
-    /* We won't use this for now until we have a more robust solution for displaying UIAlertController
-    // requires iOS 8
-    id uialertcontrollerClass = NSClassFromString(@"UIAlertController");
-    if (uialertcontrollerClass) {
-      __weak typeof(self) weakSelf = self;
-      
-      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:BITHockeyLocalizedString(@"UpdateAvailable")
-                                                                               message:[NSString stringWithFormat:BITHockeyLocalizedString(@"UpdateAlertTextWithAppVersion"), versionString]
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-      
-      
-      UIAlertAction *ignoreAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateIgnore")
-                                                             style:UIAlertActionStyleCancel
-                                                           handler:^(UIAlertAction * action) {
-                                                             typeof(self) strongSelf = weakSelf;
-                                                             [strongSelf ignoreAction];
-                                                           }];
-      
-      [alertController addAction:ignoreAction];
-      
-      UIAlertAction *remindAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateRemindMe")
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (!_updateAlertShowing) {
+      NSString *versionString = [NSString stringWithFormat:@"%@ %@", BITHockeyLocalizedString(@"UpdateVersion"), _newStoreVersion];
+      /* We won't use this for now until we have a more robust solution for displaying UIAlertController
+      // requires iOS 8
+      id uialertcontrollerClass = NSClassFromString(@"UIAlertController");
+      if (uialertcontrollerClass) {
+        __weak typeof(self) weakSelf = self;
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:BITHockeyLocalizedString(@"UpdateAvailable")
+                                                                                 message:[NSString stringWithFormat:BITHockeyLocalizedString(@"UpdateAlertTextWithAppVersion"), versionString]
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertAction *ignoreAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateIgnore")
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:^(UIAlertAction * action) {
+                                                               typeof(self) strongSelf = weakSelf;
+                                                               [strongSelf ignoreAction];
+                                                             }];
+        
+        [alertController addAction:ignoreAction];
+        
+        UIAlertAction *remindAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateRemindMe")
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action) {
+                                                               typeof(self) strongSelf = weakSelf;
+                                                               [strongSelf remindAction];
+                                                             }];
+        
+        [alertController addAction:remindAction];
+        
+        UIAlertAction *showAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateShow")
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
                                                              typeof(self) strongSelf = weakSelf;
-                                                             [strongSelf remindAction];
+                                                             [strongSelf showAction];
                                                            }];
-      
-      [alertController addAction:remindAction];
-      
-      UIAlertAction *showAction = [UIAlertAction actionWithTitle:BITHockeyLocalizedString(@"UpdateShow")
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * action) {
-                                                           typeof(self) strongSelf = weakSelf;
-                                                           [strongSelf showAction];
-                                                         }];
-      
-      [alertController addAction:showAction];
-      
-      [self showAlertController:alertController];
-    } else {
-     */
+        
+        [alertController addAction:showAction];
+        
+        [self showAlertController:alertController];
+      } else {
+       */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:BITHockeyLocalizedString(@"UpdateAvailable")
-                                                          message:[NSString stringWithFormat:BITHockeyLocalizedString(@"UpdateAlertTextWithAppVersion"), versionString]
-                                                         delegate:self
-                                                cancelButtonTitle:BITHockeyLocalizedString(@"UpdateIgnore")
-                                                otherButtonTitles:BITHockeyLocalizedString(@"UpdateRemindMe"), BITHockeyLocalizedString(@"UpdateShow"), nil
-                                ];
-      [alertView show];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:BITHockeyLocalizedString(@"UpdateAvailable")
+                                                            message:[NSString stringWithFormat:BITHockeyLocalizedString(@"UpdateAlertTextWithAppVersion"), versionString]
+                                                           delegate:self
+                                                  cancelButtonTitle:BITHockeyLocalizedString(@"UpdateIgnore")
+                                                  otherButtonTitles:BITHockeyLocalizedString(@"UpdateRemindMe"), BITHockeyLocalizedString(@"UpdateShow"), nil
+                                  ];
+        [alertView show];
 #pragma clang diagnostic pop
-    /*}*/
-    
-    _updateAlertShowing = YES;
-  }
+      /*}*/
+      
+      _updateAlertShowing = YES;
+    }
+  });
 }
 
 
